@@ -1,8 +1,10 @@
 @extends('layouts.app')
 
+@section('page_title', '商品一覧ページ')
+
 @section('content')
-<div class="admin">
-    <h2>商品一覧</h2>
+<div class="product-list">
+    <h2 class="product-list__title">商品一覧</h2>
 
     <a href="{{ route('products.create') }}">
         新規商品を登録
@@ -48,6 +50,7 @@
                     </form>
                 </td>
             </tr>
+            @endforeach
         </tbody>
     </table>
 </div>

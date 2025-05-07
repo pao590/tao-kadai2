@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Season;
 use Illuminate\Http\Request;
+use App\Http\Requests\ProductRequest;
 
 class ProductController extends Controller
 {
@@ -55,11 +56,11 @@ class ProductController extends Controller
         ));
     }
 
-    public function update(Request $request,$id)
+    public function update(ProductRequest $request, Product $product)
     {
         $request->validate(Product::$rules);
 
-        $product = Product::findOrFail($id);
+        $product = Product::findOrFail($product);
         $product->update($request->only([
             'name',
             'price',
