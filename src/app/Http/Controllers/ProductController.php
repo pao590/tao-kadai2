@@ -10,9 +10,20 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::with('seasons')->paginate(10);
+        $query = Product::query();
+
+        if ($request->filled('keyword')) {
+            $query->where('name', 'like', '%' . $request->keyword . '%');
+        }
+
+        if ($request->filled('price_order')) {
+            $query->orderBy('price', $request->price_order);
+        }
+
+        $products = $query->with('seasons')->paginate(6);
+
         return view('products.index', compact('products'));
     }
 
@@ -22,15 +33,10 @@ class ProductController extends Controller
         return view('products.create', compact('seasons'));
     }
 
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'price' => 'required|numeric',
-            'description' => 'nullable|string',
-            'image' => 'required|image',
-            'seasons' => 'required|array',
-        ]);
+        $validated = $request->validated
+        ();
 
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('images', 'public');
@@ -65,7 +71,7 @@ class ProductController extends Controller
         ));
     }
 
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',

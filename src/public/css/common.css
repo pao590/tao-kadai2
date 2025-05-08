@@ -2,15 +2,15 @@ body {
     font-family: 'Helvetica Neue', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #fff8f0;
+    background-color: #f8f8f8;
 }
 
 .header {
-    background-color: #ffcc70;
-    padding: 20px;
-    text-align: center;
-    color: #fff;
-    font-size: 24px;
+    background-color: #fff;
+    padding: 15px;
+    text-align: left;
+    color: #ffcc70;
+    font-size: 12px;
 }
 
 .product-list {
@@ -56,4 +56,91 @@ body {
     color: #ff7f50;
     font-weight: bold;
     font-size: 16px;
+}
+
+.btn-register {
+    background-color: #38bdf8;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.btn-register:hover {
+    background-color: #0ea5e9;
+}
+
+.tag {
+    background: #eee;
+    padding: 5px 10px;
+    border-radius: 15px;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+.tag a {
+    color: red;
+    margin-left: 8px;
+    text-decoration: none;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    font-size: 14px;
+    /* ★ サイズ調整ここ */
+}
+
+.pagination li {
+    margin: 0 5px;
+}
+
+.pagination li a,
+.pagination li span {
+    display: block;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #333;
+}
+
+.pagination li.active span {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 4px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    background-color: #fff;
+    box-sizing: border-box;
+}
+
+.form-input:focus {
+    border-color: #38bdf8;
+    outline: none;
+}
+
+.form-label {
+    font-weight: bold;
+    margin-bottom: 6px;
+    display: block;
+}
+
+.form-group {
+    margin-bottom: 20px;
 }
