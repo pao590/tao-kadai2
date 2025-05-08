@@ -7,6 +7,7 @@ use App\Models\Season;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProductRequest;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -39,7 +40,10 @@ class ProductController extends Controller
         ();
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('images', 'public');
+            $path = $request->file('image')->storeAs(
+                'images',
+                Str::uuid() . '.' . $request->file('image')->extension(),
+                'public');
             $validated['image'] = $path;
         }
 
