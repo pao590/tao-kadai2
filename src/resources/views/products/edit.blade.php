@@ -4,7 +4,7 @@
 <div class="admin">
     <h2>商品編集</h2>
 
-    <form action="{{ route('products.update',$product->id) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
@@ -19,6 +19,11 @@
         <div>
             <label for="image">画像</label>
             <input type="file" name="image" id="image">
+            @if($product->image)
+            <div class="image-preview">
+                <img src="{{ asset('storage/' . $product->image) }}" alt="現在の画像" style="max-width: 200px;">
+            </div>
+            @endif
             @error('image')
             <p>{{ $message }}</p>
             @enderror
@@ -35,11 +40,11 @@
         <div>
             <label>季節</label><br>
             @foreach($seasons as $season)
-                <label>
-                    <input type="checkbox" name="seasons[]" value="{{ $season->id }}"
+            <label>
+                <input type="checkbox" name="seasons[]" value="{{ $season->id }}"
                     {{ in_array($season->id, old('seasons',$selectedSeasons)) ? 'checked' : '' }}>
-                    {{ $season->name }}
-                </label>
+                {{ $season->name }}
+            </label>
             @endforeach
             @error('seasons')
             <p>{{ $message }}</p>
@@ -52,5 +57,3 @@
     </form>
 </div>
 @endsection
-
-<!-- 商品編集ページ -->

@@ -6,13 +6,14 @@ use App\Models\Product;
 use App\Models\Season;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProductRequest;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::with('seasons')->get();
-        return view('products.index',compact('products'));
+        $products = Product::with('seasons')->paginate(10);
+        return view('products.index', compact('products'));
     }
 
     public function create()
@@ -23,25 +24,33 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate(Product::$rules);
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric',
+            'description' => 'nullable|string',
+            'image' => 'required|image',
+            'seasons' => 'required|array',
+        ]);
 
-        $product = Product::create($request->only([
-            'name',
-            'price',
-            'image',
-            'description'
-        ]));
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('images', 'public');
+            $validated['image'] = $path;
+        }
 
-        $product->seasons()->sync($request->seasons);
+        $product = Product::create($validated);
+        $product->seasons()->attach($request->seasons);
 
-        return redirect()->route('products.index');
+        return redirect()->route('products.index')->with('success', '登録完了しました');
     }
+
 
     public function show($id)
     {
         $product = Product::with('seasons')->findOrFail($id);
-        return view('products.show',compact('product'));
+        $seasons = Season::all();
+        return view('products.show', compact('product', 'seasons'));
     }
+
 
     public function edit($id)
     {
@@ -49,32 +58,44 @@ class ProductController extends Controller
         $seasons = Season::all();
         $selectedSeasons = $product->seasons->pluck('id')->toArray();
 
-        return view('products.edit',compact(
+        return view('products.edit', compact(
             'product',
             'seasons',
             'selectedSeasons'
         ));
     }
 
-    public function update(ProductRequest $request, Product $product)
+    public function update(Request $request, Product $product)
     {
-        $request->validate(Product::$rules);
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric',
+            'description' => 'nullable|string',
+            'image' => 'nullable|image',
+            'seasons' => 'required|array',
+        ]);
 
-        $product = Product::findOrFail($product);
-        $product->update($request->only([
-            'name',
-            'price',
-            'image',
-            'description'
-        ]));
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('images', 'public');
+            $validated['image'] = $path;
+        }
+
+        $product->update($validated);
         $product->seasons()->sync($request->seasons);
 
-        return redirect()->route('products.index');
+        return redirect()->route('products.show', $product)->with('success', '更新完了しました');
     }
+
 
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
+
+        // 画像削除
+        if ($product->image) {
+            Storage::disk('public')->delete($product->image);
+        }
+
         $product->seasons()->detach();
         $product->delete();
 

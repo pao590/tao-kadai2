@@ -1,44 +1,49 @@
 @extends('layouts.app')
 
-@section('content')
-<div class="admin">
-    <h2>商品詳細</h2>
+@section('page_title', '商品詳細画面')
 
-    <div>
-        <p><strong>商品名:</strong>{{ $product->name }}</p>
-        <p><strong>価格：</strong>{{ number_format($product->price)}}円</p>
-        <p><strong>説明：</strong>{{$product->description}}</p>
-        <p><strong>季節：</strong>
-            @foreach($product->seasons as $season)
-            {{ $season->name }}{{ !$loop->last ? '、' : '' }}
-            @endforeach
-        </p>
-        <p><strong>画像：</strong></p>
-        @if ($product->image_path)
-        <img src="{{ asset('storage/' . $product->image_path) }}" alt="商品画像" style="max-width: 300px;">
+@section('content')
+<div class="product-detail">
+    <h2>{{ $product->name }}</h2>
+
+    <div class="product-detail__image">
+        @if($product->image)
+        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" style="max-width: 300px;">
         @else
-        <p>画像なし</p>
+        <img src="{{ asset('images/no-image.png') }}" alt="No Image">
         @endif
     </div>
 
-    <div style="margin-top: 20px;">
-        <a href="{{ route('products.edit',$product->id) }}">
-            <button>編集する</button>
-        </a>
-        <a href="{{ route('products.index') }}">
-            <button>戻る</button>
-        </a>
+    <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        @method('PUT')
 
-        <form action="{{ route('products.destroy', $product->id) }}" method="POST" style="display:inline;">
-            @csrf
-            @method('DELETE')
-            <button type="submit" onclick="return confirm('本当に削除しますか？')" title="削除" style="background: none; border: none; cursor: pointer;">
-                🗑️
-            </button>
-        </form>
-    </div>
+        <div class="form-group">
+            <label>商品名</label>
+            <input type="text" name="name" value="{{ $product->name }}">
+        </div>
+
+        <div class="form-group">
+            <label>価格</label>
+            <input type="number" name="price" value="{{ $product->price }}">
+        </div>
+
+        <div class="form-group">
+            <label>季節</label>
+            @foreach ($seasons as $season)
+            <label><input type="radio" name="seasons[]" value="{{ $season->id }}" {{ $product->seasons->contains($season->id) ? 'checked' : '' }}> {{ $season->name }}</label>
+            @endforeach
+        </div>
+
+        <div class="form-group">
+            <label>商品説明</label>
+            <textarea name="description">{{ $product->description }}</textarea>
+        </div>
+
+        <div class="form-buttons">
+            <a href="{{ route('products.index') }}" class="btn-back">戻る</a>
+            <button type="submit" class="btn-submit">変更を保存</button>
+        </div>
+    </form>
 </div>
-
 @endsection
-
-<!-- 詳細ページ -->
