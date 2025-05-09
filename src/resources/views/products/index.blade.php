@@ -34,7 +34,6 @@
     <div class="product-list__items" style="display: flex; flex-wrap: wrap; gap: 20px;">
         @forelse ($products as $product)
         <div class="product-card" style="width: 200px; border: 1px solid #ccc; border-radius: 10px; padding: 10px;">
-            <img src="{{ asset('storage/images/' . $product->image) }}" alt="{{ $product->name }}">
             <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
 
             <p style="font-weight: bold;">{{ $product->name }}</p>

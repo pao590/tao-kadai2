@@ -1,46 +1,54 @@
-# 基礎学習ターム確認テスト_もぎたて
+# 基礎学習ターム確認テスト\_もぎたて
 
 ## 環境構築
+
 ```
 リポジトリからダウンロード
 git clone git@github.com:pao590/tao-kadai2.git
 
----
-.envファイルの作成と設定
+```
+
+.env ファイルの作成と設定
 cp .env.example .env
 
----
+```
 DB_CONNECTION=mysql
 DB_HOST=mysql
 DB_PORT=3306
 DB_DATABASE=laravel_db
 DB_USERNAME=laravel_user
 DB_PASSWORD=laravel_pass
----
+```
 
-Dockerコンテナの構築と起動
+Docker コンテナの構築と起動
 docker-compose up -d --build
 
----
+```
 PHPコンテナ起動
-docker-compose exec app bash
----
+docker-compose exec php bash
+```
 
-composerのインストール
+composer のインストール
 composer install
 
----
+```
 アプリケーションキーの生成
 php artisan key:generate
 
----
+```
+
 ストレージのシンボリック作成
 php artisan storage:link
 
----
+```
 マイグレーションとシーディングの実行
 php artisan migrate
 php artisan db:seed
+
+```
+"The stream or file could not be opened"エラーが発生した場合srcディレクトリにあるstorageディレクトリ以下の権限を変更
+
+chmod -R 777 storage
 
 
 ## 使用技術
@@ -53,4 +61,5 @@ php artisan db:seed
 ![ER図](ER.drawio.png)
 
 ## URL
-- 開発環境：http://localhost/
+- 商品一覧：http://localhost/products
+```

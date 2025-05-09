@@ -8,7 +8,6 @@
 
     <div class="product-detail__image" style="margin-bottom: 20px;">
         @if ($product->image)
-        <img src="{{ asset('storage/images/' . $product->image) }}" alt="{{ $product->name }}">
         <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
 
         @else
