@@ -1,10 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="product-list" style="padding: 20px;">
-    <div style="margin-bottom: 20px; text-align: right;">
-        <a href="{{ route('products.create') }}" class="btn btn-primary" style="padding: 10px 20px; background-color: #4CAF50; color: white; border-radius: 25px;">+ 商品を追加</a>
+<div class="product-list__items" style="display: flex; flex-wrap: wrap; gap: 20px;">
+    @forelse ($products as $product)
+    <div class="product-card" style="width: 200px; border: 1px solid #ccc; border-radius: 10px; padding: 10px;">
+        <a href="/products/{{ $product->id }}">
+            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
+            <p style="font-weight: bold;">{{ $product->name }}</p>
+            <p>¥{{ number_format($product->price) }}</p>
+        </a>
     </div>
+    @empty
+    <p>該当する商品は見つかりませんでした。</p>
+    @endforelse
+</div>
+
+<div class="pagination" style="margin-top: 20px;">
+    {{ $products->appends(request()->query())->links('pagination::bootstrap-4') }}
+</div>
 
     <h2 class="product-list__title" style="text-align: left;">商品一覧</h2>
 
@@ -30,22 +43,5 @@
         </span>
     </div>
     @endif
-
-    <div class="product-list__items" style="display: flex; flex-wrap: wrap; gap: 20px;">
-        @forelse ($products as $product)
-        <div class="product-card" style="width: 200px; border: 1px solid #ccc; border-radius: 10px; padding: 10px;">
-            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
-
-            <p style="font-weight: bold;">{{ $product->name }}</p>
-            <p>¥{{ number_format($product->price) }}</p>
-        </div>
-        @empty
-        <p>該当する商品は見つかりませんでした。</p>
-        @endforelse
-    </div>
-
-    <div class="pagination" style="margin-top: 20px;">
-        {{ $products->appends(request()->query())->links() }}
-    </div>
 </div>
 @endsection
