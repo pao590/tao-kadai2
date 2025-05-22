@@ -17,6 +17,13 @@
             <h1 class="header__heading">mogitate
             </h1>
             @yield('page_title')
+            @auth
+                <form method="POST" action="{{ route('logout') }}" style="display:inline; margin-left: 20px;">
+                    @csrf
+                    <button type="submit" style="background:none; border:none; cursor:pointer; color:#007bff; text-decoration:underline; padding:0; font-size: 1rem;">ログアウト
+                    </button>
+                </form>
+            @endauth
         </header>
 
         <div class="content">

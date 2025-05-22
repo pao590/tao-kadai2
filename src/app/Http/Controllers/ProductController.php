@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\ProductRequest;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -25,7 +26,12 @@ class ProductController extends Controller
 
         $products = $query->with('seasons')->paginate(6);
 
-        return view('products.index', compact('products'));
+        $user = Auth::user();
+        if($user){
+            $user->profile;
+        }
+
+        return view('products.index', compact('products','user'));
     }
 
     public function create()
