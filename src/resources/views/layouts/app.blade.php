@@ -18,12 +18,19 @@
             </h1>
             @yield('page_title')
             @auth
-                <form method="POST" action="{{ route('logout') }}" style="display:inline; margin-left: 20px;">
-                    @csrf
-                    <button type="submit" style="background:none; border:none; cursor:pointer; color:#007bff; text-decoration:underline; padding:0; font-size: 1rem;">ログアウト
-                    </button>
-                </form>
+            <form method="POST" action="{{ route('logout') }}" style="display:inline; margin-left: 20px;">
+                @csrf
+                <button type="submit" style="background:none; border:none; cursor:pointer; color:#007bff; text-decoration:underline; padding:0; font-size: 1rem;">ログアウト
+                </button>
+            </form>
             @endauth
+
+            @endauth
+
+            @guest
+            <a href="{{ route('login') }}" style="margin-left: 20px; color:#007bff; text-decoration:underline;">ログイン</a>
+            <a href="{{ route('register') }}" style="margin-left: 10px; color:#007bff; text-decoration:underline;">会員登録</a>
+            @endguest
         </header>
 
         <div class="content">
