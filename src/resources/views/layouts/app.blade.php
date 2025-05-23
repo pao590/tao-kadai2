@@ -25,8 +25,6 @@
             </form>
             @endauth
 
-            @endauth
-
             @guest
             <a href="{{ route('login') }}" style="margin-left: 20px; color:#007bff; text-decoration:underline;">ログイン</a>
             <a href="{{ route('register') }}" style="margin-left: 10px; color:#007bff; text-decoration:underline;">会員登録</a>
