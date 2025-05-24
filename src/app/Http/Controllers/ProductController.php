@@ -27,9 +27,6 @@ class ProductController extends Controller
         $products = $query->with('seasons')->paginate(6);
 
         $user = Auth::user();
-        if($user){
-            $user->profile;
-        }
 
         return view('products.index', compact('products','user'));
     }
@@ -72,34 +69,25 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
         $seasons = Season::all();
-        $selectedSeasons = $product->seasons->pluck('id')->toArray();
-
-        return view('products.edit', compact(
-            'product',
-            'seasons',
-            'selectedSeasons'
-        ));
     }
 
     public function update(ProductRequest $request, Product $product)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'price' => 'required|numeric',
-            'description' => 'nullable|string',
-            'image' => 'nullable|image',
-            'seasons' => 'required|array',
-        ]);
+        $data = $request->only(['name','proce','description','seasons']);
 
-        if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('images', 'public');
-            $validated['image'] = $path;
+        if($request->hasFile('image')){
+            $data['image'] = $request->file('image')->storeAs(
+                'images',
+                Str::uuid() . '.' . $request->file('image')->extension(),
+                'public'
+            );
         }
 
-        $product->update($validated);
-        $product->seasons()->sync($request->seasons);
+        $product->update($data);
 
-        return redirect()->route('products.show', $product)->with('success', '更新完了しました');
+        $product->seasons()->sync($data['seasons']);
+
+        return redirect()->route('products.show',$product)->with('success','更新完了しました');
     }
 
 
