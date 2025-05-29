@@ -24,7 +24,7 @@ class ProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'gender' => 'required|in:male,female,other',
+            'gender' => 'required|in:1,2,3',
             'birthday' => 'required|date',
         ];
     }

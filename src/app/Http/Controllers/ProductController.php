@@ -29,7 +29,7 @@ class ProductController extends Controller
 
         $user = Auth::user();
 
-        return view('products.index', compact('products','user'));
+        return view('products.index', compact('products', 'user'));
     }
 
     public function create()
@@ -40,14 +40,14 @@ class ProductController extends Controller
 
     public function store(ProductRequest $request)
     {
-        $validated = $request->validated
-        ();
+        $validated = $request->validated();
 
         if ($request->hasFile('image')) {
             $path = $request->file('image')->storeAs(
                 'images',
                 Str::uuid() . '.' . $request->file('image')->extension(),
-                'public');
+                'public'
+            );
             $validated['image'] = $path;
         }
 
@@ -62,13 +62,15 @@ class ProductController extends Controller
     {
         $product = Product::with('seasons')->findOrFail($id);
         $seasons = Season::all();
-        return view('products.show', compact('product', 'seasons'));
+        $profile = \App\Models\Profile::where('user_id', auth()->id())->first();
+
+        return view('products.show', compact('product', 'seasons', 'profile'));
     }
 
 
     public function edit($id)
     {
-        return view('products.edit',compact(
+        return view('products.edit', compact(
             'product',
             'seasons'
         ));
@@ -79,9 +81,9 @@ class ProductController extends Controller
 
     public function update(UpdateProductRequest $request, Product $product)
     {
-        $data = $request->only(['name','proce','description','seasons']);
+        $data = $request->only(['name', 'proce', 'description', 'seasons']);
 
-        if($request->hasFile('image')){
+        if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->storeAs(
                 'images',
                 Str::uuid() . '.' . $request->file('image')->extension(),
@@ -93,7 +95,7 @@ class ProductController extends Controller
 
         $product->seasons()->sync($data['seasons']);
 
-        return redirect()->route('products.show',$product)->with('success','更新完了しました');
+        return redirect()->route('products.show', $product)->with('success', '更新完了しました');
     }
 
 
@@ -110,6 +112,5 @@ class ProductController extends Controller
         $product->delete();
 
         return redirect()->route('products.index');
-
     }
 }

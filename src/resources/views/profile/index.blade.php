@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('css')
+<link rel="stylesheet" href="{{ asset('css/login.css') }}">
+@endsection
+
 @section('content')
 <div class="container">
     <h2>プロフィール登録</h2>
@@ -21,9 +25,9 @@
             <label for="gender">性別</label>
             <select name="gender" id="gender" class="form-control" required>
                 <option value="">選択してください</option>
-                <option value="male">男性</option>
-                <option value="female">女性</option>
-                <option value="other">その他</option>
+                <option value="1">男性</option>
+                <option value="2">女性</option>
+                <option value="3">その他</option>
             </select>
         </div>
 
