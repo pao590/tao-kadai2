@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProfileController;
 use App\Models\Product;
 
 Route::get('/', [ProductController::class, 'index'])->name('products.index');
@@ -21,5 +22,9 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update');
 
     Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
+
+    Route::get('/profile',[ProfileController::class, 'index'])->name('profile.index');
+
+    Route::post('profile',[ProfileController::class,'store'])->name('profile.store');
 });
 

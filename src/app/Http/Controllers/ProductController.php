@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Season;
 use Illuminate\Http\Request;
+use App\Http\Requests\UpdateProductRequest;
 use App\Http\Requests\ProductRequest;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -67,11 +68,16 @@ class ProductController extends Controller
 
     public function edit($id)
     {
+        return view('products.edit',compact(
+            'product',
+            'seasons'
+        ));
+
         $product = Product::findOrFail($id);
         $seasons = Season::all();
     }
 
-    public function update(ProductRequest $request, Product $product)
+    public function update(UpdateProductRequest $request, Product $product)
     {
         $data = $request->only(['name','proce','description','seasons']);
 
@@ -104,5 +110,6 @@ class ProductController extends Controller
         $product->delete();
 
         return redirect()->route('products.index');
+
     }
 }

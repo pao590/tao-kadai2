@@ -8,6 +8,12 @@ use App\Models\Profile;
 
 class ProfileController extends Controller
 {
+    public function index()
+    {
+        return view('profile.index');
+    }
+
+
     public function store(ProfileRequest $request)
     {
         Profile::create([
@@ -15,5 +21,7 @@ class ProfileController extends Controller
             'gender' => $request->gender,
             'birthday' => $request->birthday,
         ]);
+
+        return redirect('/products');
     }
 }
