@@ -40,19 +40,18 @@ class ProductController extends Controller
 
     public function store(ProductRequest $request)
     {
-        $validated = $request->validated();
+        $data = $request->only(['name', 'price', 'description', 'seasons']);
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->storeAs(
+            $data['image'] = $request->file('image')->store(
                 'images',
-                Str::uuid() . '.' . $request->file('image')->extension(),
                 'public'
             );
-            $validated['image'] = $path;
         }
 
-        $product = Product::create($validated);
+        $product = Product::create($data);
         $product->seasons()->attach($request->seasons);
+
 
         return redirect()->route('products.index')->with('success', '登録完了しました');
     }
@@ -70,23 +69,22 @@ class ProductController extends Controller
 
     public function edit($id)
     {
+        $product = Product::findOrFail($id);
+        $seasons = Season::all();
+
         return view('products.edit', compact(
             'product',
             'seasons'
         ));
-
-        $product = Product::findOrFail($id);
-        $seasons = Season::all();
     }
 
     public function update(UpdateProductRequest $request, Product $product)
     {
-        $data = $request->only(['name', 'proce', 'description', 'seasons']);
+        $data = $request->only(['name', 'price', 'description', 'seasons']);
 
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->storeAs(
+            $data['image'] = $request->file('image')->store(
                 'images',
-                Str::uuid() . '.' . $request->file('image')->extension(),
                 'public'
             );
         }

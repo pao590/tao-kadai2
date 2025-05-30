@@ -5,11 +5,9 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Product;
 
-Route::get('/', [ProductController::class, 'index'])->name('products.index');
-
 Route::middleware(['auth'])->group(function () {
 
-    Route::get('/products',[ProductController::class, 'index'])->name('products.index');
+    Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 
     Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
 
@@ -23,8 +21,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
 
-    Route::get('/profile',[ProfileController::class, 'index'])->name('profile.index');
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
 
-    Route::post('profile',[ProfileController::class,'store'])->name('profile.store');
+    Route::post('/profile', [ProfileController::class, 'store'])->name('profile.store');
 });
-
