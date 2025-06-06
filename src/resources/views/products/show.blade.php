@@ -2,6 +2,15 @@
 
 @section('page_title', '商品詳細画面')
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ asset('css/common.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/sanitize.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/header.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/list.css') }}" />
+</head>
+
 @section('content')
 <div class="product-detail">
     <h2>{{ $product->name }}</h2>

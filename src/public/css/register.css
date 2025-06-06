@@ -1,60 +1,86 @@
-.register-form__content {
-    margin: 0 auto;
-    padding: 30px 15px;
-    max-width: 1230px;
+body {
+    background-color: rgb(245, 245, 245);
 }
 
-.register-form__heading {
-    margin-bottom: 20px;
-    text-align: center;
+.main-contents {
+    width: 650px;
+    background-color: rgb(245, 245, 245);
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.form {
-    margin: 0 auto;
-    width: 25%;
-    text-align: center;
-}
-
-.form__group {
+.label {
+    display: block;
+    margin-top: 20px;
     margin-bottom: 5px;
 }
 
-.form__group-title {
-    text-align: left;
+.text {
+    display: inline-block;
+    width: 650px;
+    height: 30px;
 }
 
-.form__error {
-    height: 20px;
-    color: #ff0000;
-    text-align: left;
+.textarea {
+    width: 650px;
+    height: 150px;
 }
 
-.form__input--text input {
-    padding: 10px;
-    width: 100%;
-    height: 40px;
-    border: 1px solid #ddd;
-    border-radius: 3px;
-
-    appearance: none;
+::placeholder {
+    color: grey;
 }
 
-.form__button {
-    margin-top: 20px;
+.require {
+    text-align: center;
+    display: inline-block;
+    color: white;
+    background-color: red;
+    width: 40px;
+    height: 18px;
+    font-size: 13px;
+    margin-left: 10px;
 }
 
-.form__button-submit {
-    padding: 10px;
-    width: 30%;
-    height: 50px;
-    border: none;
-    border-radius: 3px;
-    background: #000;
-    color: #fff;
-    cursor: pointer;
+.note {
+    color: red;
+    width: 30px;
+    height: 15px;
+    font-size: 13px;
+    margin-left: 10px;
 }
 
-.login__link {
+.button-content {
     margin-top: 20px;
     text-align: center;
+}
+
+.back {
+    display: inline-block;
+    width: 200px;
+    height: 40px;
+    color: black;
+    background-color: rgb(214, 214, 214);
+    text-decoration: none;
+    border-radius: 5px;
+    box-shadow: 4px 4px rgb(224, 224, 224);
+    padding-top: 8px;
+}
+
+.button-register {
+    width: 200px;
+    height: 40px;
+    border: none;
+    background-color: gold;
+    border-radius: 5px;
+    box-shadow: 4px 4px rgb(224, 224, 224);
+}
+
+.input_error_message {
+    color: red;
+}
+
+.reader_image {
+    width: 350px;
+    height: 200px;
+    margin-bottom: 20px;
 }

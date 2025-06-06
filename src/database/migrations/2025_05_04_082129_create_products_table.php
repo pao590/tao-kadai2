@@ -15,10 +15,11 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('name'); //商品名
-            $table->integer('price'); //商品料金
-            $table->string('image'); //商品画像
-            $table->text('description'); //商品説明
+            $table->foreignId('product_user_id')->constrained()->casecadeOnDelete();
+            $table->string('name'); 
+            $table->integer('price'); 
+            $table->string('image'); 
+            $table->text('description'); 
             $table->timestamps();
         });
     }
