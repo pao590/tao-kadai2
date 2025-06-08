@@ -23,6 +23,10 @@ class Product extends Model
         return $this->belongsToMany(Season::class, 'product_season');
     }
 
+    public function comments(){
+        return $this->hasMany(Comment::class);
+    }
+
     public function getDisplayName()
     {
         return '商品ID' . $this->id . ':' . $this->name;

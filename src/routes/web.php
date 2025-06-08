@@ -24,4 +24,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
 
     Route::post('/profile', [ProfileController::class, 'store'])->name('profile.store');
+
 });

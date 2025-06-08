@@ -82,3 +82,8 @@
     @method('DELETE')
     <button type="submit" style="color: red;">🗑 削除</button>
 </form>
+
+<form class="create_comment" action="/comment" method="post">
+    @csrf
+    
+</form>

@@ -51,7 +51,7 @@ class ProductController extends Controller
 
         $product = Product::create($data);
         $product->seasons()->attach($request->seasons);
-
+        $product->comments()->attach($request->comments);
 
         return redirect()->route('products.index')->with('success', '登録完了しました');
     }
