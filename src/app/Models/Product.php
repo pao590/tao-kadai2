@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Comment;
 
 class Product extends Model
 {
@@ -14,16 +15,18 @@ class Product extends Model
     public static $rules = [
         'name' => 'required',
         'price' => 'required',
-        'image'=> 'required',
+        'image' => 'required',
         'description' => 'required',
         'seasons' => 'required|array',
     ];
 
-    public function seasons(){
+    public function seasons()
+    {
         return $this->belongsToMany(Season::class, 'product_season');
     }
 
-    public function comments(){
+    public function comments()
+    {
         return $this->hasMany(Comment::class);
     }
 

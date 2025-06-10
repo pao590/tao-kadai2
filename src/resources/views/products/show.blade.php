@@ -39,5 +39,19 @@
         <a href="{{ route('products.edit', $product->id) }}" class="btn-edit">編集する</a>
         <a href="{{ route('products.index') }}" class="btn-back">一覧へ戻る</a>
     </div>
+
+    <h1>{{ $product->name }}</h1>
+
+    <a href="{{ route('products.comment.create' , $product->id) }}">
+        コメントを投稿する
+    </a>
+
+    <h2>コメント一覧</h2>
+    @foreach ($product->comments as $comment)
+    <div>
+        <strong>{{ $comment->user->name }}</strong><br>
+        {{ $comment->content }}
+    </div>
+    @endforeach
 </div>
 @endsection

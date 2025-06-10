@@ -10,6 +10,7 @@ use App\Http\Requests\ProductRequest;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -51,7 +52,11 @@ class ProductController extends Controller
 
         $product = Product::create($data);
         $product->seasons()->attach($request->seasons);
-        $product->comments()->attach($request->comments);
+
+        $product->comments()->create([
+            'user_id' => Auth::id(),
+            'content' => 'おいしそう',
+        ]);
 
         return redirect()->route('products.index')->with('success', '登録完了しました');
     }
@@ -59,11 +64,13 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $product = Product::with('seasons')->findOrFail($id);
+        $product = Product::with('seasons','comments.user')->findOrFail($id);
         $seasons = Season::all();
         $profile = \App\Models\Profile::where('user_id', auth()->id())->first();
+        $comments = $product->comments()->with('user')->get();
 
-        return view('products.show', compact('product', 'seasons', 'profile'));
+
+        return view('products.show', compact('product', 'seasons', 'profile', 'comments'));
     }
 
 

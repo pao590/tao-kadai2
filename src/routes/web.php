@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ProductCommentController;
 use App\Models\Product;
 
 Route::middleware(['auth'])->group(function () {
@@ -25,4 +27,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/profile', [ProfileController::class, 'store'])->name('profile.store');
 
+    Route::get('/products/{product}/comment/create', [ProductCommentController::class, 'create'])->name('products.comment.create');
+
+    Route::post('/products/{product}/comment', [ProductCommentController::class, 'store'])->name('products.comment.store');
 });

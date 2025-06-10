@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProductUserTable extends Migration
+class CreateCommentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateProductUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('product_user', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->string('name',10)->unique();
+            $table->foreignId('product_id')->constrained()->casecadeOnDelete();
+            $table->foreignId('user_id')->constrained()->casecadeOnDelete();
+            $table->string('content',50);
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateProductUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_user');
+        Schema::dropIfExists('comments');
     }
 }
