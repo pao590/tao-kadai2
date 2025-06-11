@@ -62,21 +62,17 @@ class ProductController extends Controller
     }
 
 
-    public function show($id)
+    public function show(Product $product)
     {
-        $product = Product::with('seasons','comments.user')->findOrFail($id);
         $seasons = Season::all();
-        $profile = \App\Models\Profile::where('user_id', auth()->id())->first();
-        $comments = $product->comments()->with('user')->get();
 
 
-        return view('products.show', compact('product', 'seasons', 'profile', 'comments'));
+        return view('products.show', compact('product', 'seasons',));
     }
 
 
-    public function edit($id)
+    public function edit(Product $product)
     {
-        $product = Product::findOrFail($id);
         $seasons = Season::all();
 
         return view('products.edit', compact(
@@ -104,11 +100,8 @@ class ProductController extends Controller
     }
 
 
-    public function destroy($id)
+    public function destroy(Product $product)
     {
-        $product = Product::findOrFail($id);
-
-        // 画像削除
         if ($product->image) {
             Storage::disk('public')->delete($product->image);
         }
