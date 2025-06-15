@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use PHPUnit\Framework\MockObject\ClassIsFinalException;
 
 class CommentRequest extends FormRequest
 {
@@ -25,6 +26,13 @@ class CommentRequest extends FormRequest
     {
         return [
             'comment' => 'required|string|max:1000',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'comment.required' => 'コメントを入力してください',
         ];
     }
 }
