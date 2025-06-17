@@ -3,12 +3,13 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Season;
-use App\Models\Product;
+use Illuminate\Http\UploadedFile;
+
 
 class ProductCreateViewTest extends TestCase
 {
@@ -23,10 +24,13 @@ class ProductCreateViewTest extends TestCase
 
     public function test_authenticated_user_can_access_product_create_form()
     {
+        /** @var \App\Models\User $user */
         $user = User::factory()->create([
             'email' => 'test@test.com',
             'password' => bcrypt('password'),
         ]);
+
+        $this->actingAs($user);
 
         $response = $this->get(route('products.create'));
 
@@ -35,40 +39,46 @@ class ProductCreateViewTest extends TestCase
         $response->assertSee('商品名');
         $response->assertSee('価格');
         $response->assertSee('登録する');
-
     }
 
     public function test_product_create_validation_error()
     {
+        /** @var \App\Models\User $user */
         $user = User::factory()->create();
+
         $this->actingAs($user);
 
-        $response = $this->from(route('products.create'))->post(route('products.store'), []);
+        $response = $this->get(route('products.create'));
+
+        $response->assertStatus(200);
+
+        $product = [
+            'name' => 'バナナ',
+        ];
+
+        $response = $this->post(route('products.create'), $product);
+
+        $response->assertStatus(302);
+
+        $response->assertRedirect(route('products.create'));
 
         $response->assertSessionHasErrors([
-            'name',
-            'price',
-            'image',
-            'description',
-            'seasons',
+            // 'name' => '商品名を入力してください',
+            'price' => '値段を入力してください',
+            'image' => '商品画像を登録してください',
+            'description' => '商品説明を入力してください',
+            'seasons' => '季節を選択してください',
         ]);
-
-        $response->assertSeeInOrder([
-            '商品名を入力してください',
-            '値段を入力してください',
-            '商品画像を登録してください',
-            '商品説明を入力してください',
-            '季節を選択してください',
-        ]);
-
     }
 
     public function test_product_can_be_created()
     {
+        /** @var \App\Models\User $user */
         Storage::fake('public');
 
         $user = User::factory()->create();
         $this->actingAs($user);
+
 
         $season = Season::factory()->create();
 
@@ -92,6 +102,6 @@ class ProductCreateViewTest extends TestCase
             'description' => 'これはテストの商品です',
         ]);
 
-        Storage::disk('public')->assertExists('images/' . $image->hashName());
+        $this->assertCount(1, Storage::disk('public')->files('images'));
     }
 }

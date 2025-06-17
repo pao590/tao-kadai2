@@ -1,19 +1,16 @@
 @extends('layouts.app')
 
-@section('content')
+@section('css')
+<link rel="stylesheet" href="{{ asset('css/index.css') }}">
+@endsection
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>商品一覧ページ</title>
-    <link rel="stylesheet" href="{{ asset('css/common.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/sanitize.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/header.css') }}" />
-</head>
+@section('page_title', '商品一覧')
+
+@section('content')
 
 <div class="right-contents">
     <p class="message">{{session('message')}}</p>
-    <a href="/products/register" class="add-button"><span>+</span>商品を追加</a>
+    <a href="/products/create" class="add-button"><span>+</span>商品を追加</a>
 </div>
 
 @if($user)

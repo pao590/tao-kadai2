@@ -1,5 +1,11 @@
 @extends('layouts.app')
 
+@section('css')
+<link rel="stylesheet" href="{{ asset('css/create.css') }}">
+@endsection
+
+@section('page_title', '商品登録')
+
 @section('content')
 <div class="product-form">
     <h2>商品登録</h2>
@@ -76,7 +82,7 @@
             </a>
         </div>
         <div class="form-buttons">
-            <button type="submit" class="btn-submit">登録</button>
+            <button type="submit" class="btn-submit">登録する</button>
         </div>
     </form>
 </div>
