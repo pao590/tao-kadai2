@@ -43,25 +43,26 @@ class ProductCreateViewTest extends TestCase
 
     public function test_product_create_validation_error()
     {
-        /** @var \App\Models\User $user */
+        // ログイン用にテストユーザをDBに作成
         $user = User::factory()->create();
-
+        // テストユーザでログイン済みにする
         $this->actingAs($user);
-
+        // 商品登録画面を表示するためのgetリクエストを送信
         $response = $this->get(route('products.create'));
-
+        // エラーが起きていないことを確認（200:正常に表示）
         $response->assertStatus(200);
 
+        // 名前以外は入力しないデータを用意
         $product = [
             'name' => 'バナナ',
         ];
-
-        $response = $this->post(route('products.create'), $product);
-
+        // DBに商品登録するためのpostリクエストを送信
+        $response = $this->post(route('products.store'), $product);
+        // バリデーションエラーでリダイレクトされることを確認（302:リダイレクト）
         $response->assertStatus(302);
-
+        // リダイレクト先が商品登録画面のパスであることを確認
         $response->assertRedirect(route('products.create'));
-
+        // バリデーションエラーの情報が格納されていることを確認
         $response->assertSessionHasErrors([
             // 'name' => '商品名を入力してください',
             'price' => '値段を入力してください',
